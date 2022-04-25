@@ -19,7 +19,7 @@ export const getStaticProps: GetStaticProps = async () => {
     .select('*')
     .order('created_at', { ascending: true })
 
-  return { props: { tasks, notices } }
+  return { props: { tasks, notices }, revalidate: 5 }
 }
 
 type StaticProps = {
@@ -27,11 +27,10 @@ type StaticProps = {
   notices: Notice[]
 }
 
-const Ssg: NextPage<StaticProps> = ({ tasks, notices }) => {
-  const router = useRouter()
+const Isr: NextPage<StaticProps> = ({ tasks, notices }) => {
   return (
-    <Layout title="SSG">
-      <p className="mb-3 text-blue-500">SSG</p>
+    <Layout title="ISR">
+      <p className="mb-3 text-indigo-500">ISR</p>
       <ul className="mb-3">
         {tasks.map((task) => {
           return (
@@ -51,15 +50,8 @@ const Ssg: NextPage<StaticProps> = ({ tasks, notices }) => {
           )
         })}
       </ul>
-      <Link href="/ssr" prefetch={false}>
-        <a className="my-3 text-xs">Link to ssr</a>
-      </Link>
-
-      <button className="mb-3 text-xs" onClick={() => router.push('/ssr')}>
-        Route to ssr
-      </button>
     </Layout>
   )
 }
 
-export default Ssg
+export default Isr
